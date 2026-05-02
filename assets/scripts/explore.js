@@ -18,4 +18,25 @@ function init() {
 
     populateVoices();
     speechSynthesis.addEventListener('voiceschanged', populateVoices);
+
+    const talkButton = document.querySelector('#explore button');
+    const faceImage = document.querySelector('#explore img');
+    const textarea = document.querySelector('#text-to-speak');
+
+    talkButton.addEventListener('click', () => {
+        const utterance = new SpeechSynthesisUtterance(textarea.value);
+        const selectedVoice = speechSynthesis.getVoices().find(v => v.name === voiceSelect.value);
+        if (selectedVoice) utterance.voice = selectedVoice;
+
+        utterance.addEventListener('start', () => {
+            faceImage.src = 'assets/images/smiling-open.png';
+            faceImage.alt = 'Smiling face open';
+        });
+        utterance.addEventListener('end', () => {
+            faceImage.src = 'assets/images/smiling.png';
+            faceImage.alt = 'Smiling face';
+        });
+
+        speechSynthesis.speak(utterance);
+    });
 }
