@@ -17,6 +17,9 @@ function init() {
         hornAudio.src = `assets/audio/${value}.mp3`;
     });
 
+    const playButton = document.querySelector('#expose button');
+    const confetti = new JSConfetti();
+
     volumeSlider.addEventListener('input', () => {
         const volume = Number(volumeSlider.value);
         let level;
@@ -27,5 +30,11 @@ function init() {
         volumeImage.src = `assets/icons/volume-level-${level}.svg`;
         volumeImage.alt = `Volume level ${level}`;
         hornAudio.volume = volume / 100;
+    });
+
+    playButton.addEventListener('click', () => {
+        hornAudio.currentTime = 0;
+        hornAudio.play();
+        if (hornSelect.value === 'party-horn') confetti.addConfetti();
     });
 }
